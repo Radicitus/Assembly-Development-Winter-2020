@@ -1,10 +1,10 @@
-.include "hw2_netid.asm"
+.include "hw2_crsherry.asm"
 
 .globl main
 
 # Data Section
 .data
-array: .word 1,2,3,4,10,0,-1
+array: .word 1,10,3,4,10,10,-1
 array_size: .word 7
 strLabel1: .asciiz " findIndex("
 comma: .asciiz ", "
