@@ -1,4 +1,4 @@
-.include "hw2_netid.asm"
+.include "hw2_crsherry.asm"
 
 .globl main
 
@@ -6,7 +6,7 @@
 .data
 strLabel: .asciiz "maxCharFreq of \""
 qoute: .asciiz"\" is "
-str: .asciiz "ICS51 Rules"
+str: .asciiz "mississippi"
 newline: .asciiz "\n"
 
 
