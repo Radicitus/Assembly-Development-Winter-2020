@@ -1,4 +1,4 @@
-.include "hw2_netid.asm"
+.include "hw2_crsherry.asm"
 
 
 .globl main

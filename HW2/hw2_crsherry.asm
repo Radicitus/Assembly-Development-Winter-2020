@@ -122,10 +122,77 @@ maxCharFreq:
      jr $ra
 
 countAllChars:
-    # your code goes here
-    li $v0, 495   # REMOVE THIS LINE, ONLY FOR ASSEMBLY WITH MAIN
-    li $v1, 495   # REMOVE THIS LINE, ONLY FOR ASSEMBLY WITH MAIN
-    jr $ra
+    move $t0, $a0 #String address
+    move $t1, $a1 #Array address
+    
+    #Initialize counter vars
+    li $t2, 0 #Number of space char
+    li $t3, 0 #Number of alpha char
+    
+    #Loop to iterate through string
+    countAllCharsLoop:
+         #Load char value
+         lb $t4, ($t0) 
+         
+         #Check if null terminator
+         beqz $t4, countAllCharsDone
+         
+         #ASCII decimal comparisons
+              #Check if space char
+              beq $t4, 32, countAllCharsLoopSpace
+              
+              #Check if outside alpha char bounds, <65
+              blt $t4, 65, countAllCharsLoopContinue
+              
+              #Check if outside alpha char bounds, >122
+              bgt $t4, 122, countAllCharsLoopContinue
+              
+              #Check if within alpha char bounds, <91
+              blt $t4, 91, countAllCharsLoopIndexConversionUpper
+              
+              #Check if within alpha char bounds, >96
+              bgt $t4, 96, countAllCharsLoopIndexConversionLower
+              
+              #Space Char!
+              countAllCharsLoopSpace:
+              addi $t2, $t2, 1
+              j countAllCharsLoopContinue
+              
+         #Alphabet conversion operations
+              #Upper conversion
+              countAllCharsLoopIndexConversionUpper:
+              addi $t4, $t4, -65
+              j countAllCharsLoopIndexConversion
+              #Lower conversion
+              countAllCharsLoopIndexConversionLower:
+              addi $t4, $t4, -97
+              j countAllCharsLoopIndexConversion
+              
+              #Conversion to index
+              countAllCharsLoopIndexConversion:
+              #Increment alpha counter
+              addi $t3, $t3, 1
+              #Reduce value in decimal to an address offset
+              add $t4, $t4, $t1 #Now an address to the index
+              #Increment appropriate array index
+              lb $t5, ($t4)
+              addi $t5, $t5, 1
+              sb $t5, ($t4)
+              #Continue loop
+              j countAllCharsLoopContinue
+	      
+	 #Continue loop
+	 countAllCharsLoopContinue:
+	 addi $t0, $t0, 1
+	 j countAllCharsLoop
+	 
+     #Complete function
+     countAllCharsDone:
+     move $v0, $t2
+     move $v1, $t3
+     
+     #Jump back to the program
+     jr $ra
 
 createHist:
     # your code goes here
