@@ -183,6 +183,8 @@ countAllChars:
               #Increment alpha counter
               addi $t3, $t3, 1
               #Reduce value in decimal to an address offset
+              li $t7, 4
+              mul $t4, $t4, $t7
               add $t4, $t4, $t1 #Now an address to the index
               #Increment appropriate array index
               lw $t5, ($t4)

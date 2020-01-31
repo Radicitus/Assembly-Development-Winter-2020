@@ -6,7 +6,7 @@
 .data
 array: .word 0,0,0,0,0,0,0,0,4,0,0,0,1,0,0,2,0,0,4,0,0,0,0,0,0,0
 
-str: .asciiz "mississippi"
+str: .asciiz "!!!@@@i am cameron"
 
 strLabel1: .asciiz "countAllChars Returned Value ("
 comma: .asciiz ", "
