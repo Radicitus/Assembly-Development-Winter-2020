@@ -129,6 +129,16 @@ countAllChars:
     li $t2, 0 #Number of space char
     li $t3, 0 #Number of alpha char
     
+    #Zero out the array
+    li $t7, 0 #Index counter
+    countAllCharsZeroLoop:
+         #Check if index is out of range
+         beq $t7, 104, countAllCharsLoop
+              add $t8, $t7, $t1 #Address of index
+              sw $0, ($t8) #Zero out address
+              addi $t7, $t7, 4 #Increment index xounter by 4
+         j countAllCharsZeroLoop
+    		
     #Loop to iterate through string
     countAllCharsLoop:
          #Load char value
@@ -175,9 +185,9 @@ countAllChars:
               #Reduce value in decimal to an address offset
               add $t4, $t4, $t1 #Now an address to the index
               #Increment appropriate array index
-              lb $t5, ($t4)
+              lw $t5, ($t4)
               addi $t5, $t5, 1
-              sb $t5, ($t4)
+              sw $t5, ($t4)
               #Continue loop
               j countAllCharsLoopContinue
 	      
