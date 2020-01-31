@@ -195,10 +195,94 @@ countAllChars:
      jr $ra
 
 createHist:
-    # your code goes here
-    li $v0, 495   # REMOVE THIS LINE, ONLY FOR ASSEMBLY WITH MAIN
-    jr $ra
+    move $t0, $a0
+    
+    #Initial for loop to see if there's a negative value
+    move $t1, $t0
+    li $t8, 0 #Non-zero array entries counter
+    li $t9, 0 #Index counter
+    createHistNegCheckLoop:
+         #Load value
+         lw $t2, ($t1)
+         
+         #Check if loop complete
+         beq $t9, 26, createHistLoopInit
+         
+         #Check if negative value
+         bltz $t2, createHistError
+         
+         #Continue loop
+         addi $t1, $t1, 4 #Increment value address
+         addi $t9, $t9, 1 #Increment index counter
+         j createHistNegCheckLoop
 
+     #Error handling
+     createHistError:
+          #Assign return values
+          li $v0, -1
+          #Jump to program termination
+          j createHistTerminate
+
+     #Main loop for creating the histogram
+     createHistLoopInit:
+     move $t1, $t0
+     li $t9, 0 #Index counter
+     createHistLoop:
+          #Load value
+          lw $t2, ($t1)
+          
+          #Check if loop complete
+          beq $t9, 26, createHistDone
+          
+          #Check if value equal to zero, then print histogram
+          beqz $t2, createHistLoopIndexIncr
+               #Convert index to ASCII char
+               addi $t4, $t9, 97
+               #Increment non-zero counter
+               addi $t8, $t8, 1
+               #Print character and colon
+               li $v0, 11
+               move $a0, $t4
+               syscall
+               li $a0, 58
+               syscall
+               
+               #Initialize loop local counter
+               li $t3, 0
+               #Begin loop for printing histogram
+               createHistLoopInner:
+                    #Check if range exceeded
+                    beq $t3, $t2, createHistLoopInnerDone
+                    #Print a star
+                    li $a0, 42
+                    syscall
+                    #Increment local loop counter
+                    addi $t3, $t3, 1
+                    #Jump back to loop
+                    j createHistLoopInner
+               
+               #Complete printing of histogram for character
+               createHistLoopInnerDone:
+                    #Print new line
+                    li $a0, 10
+                    syscall
+                    
+               #Increment index counter
+               createHistLoopIndexIncr:
+                    addi $t9, $t9, 1
+                    addi $t1, $t1, 4
+                    j createHistLoop
+
+     #Assign values and terminate function
+     createHistDone:
+          #Assign to return register
+          move $v0, $t8
+     
+     #Terminate the function
+     createHistTerminate:
+          #Jump back to program
+          jr $ra
+          
 split:
     # your code goes here
     li $v0, 495   # REMOVE THIS LINE, ONLY FOR ASSEMBLY WITH MAIN

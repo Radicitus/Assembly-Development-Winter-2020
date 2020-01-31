@@ -9,7 +9,7 @@ strLabel1: .asciiz " countAllChars returned ("
 comma: .asciiz ", "
 strLabel2: .asciiz ")\n"
 
-str: .asciiz "Aa BBb CCCC Ddddd z"
+str: .asciiz "i am cameron"
 array: .word 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25
 
 # Program 
