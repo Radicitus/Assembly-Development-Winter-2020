@@ -1,14 +1,14 @@
-.include "hw2_netid.asm"
+.include "hw2_crsherry.asm"
 
 .globl main
 
 # Data Section
 .data
-array: .word -1,-1,-1,-1, -1
-n: .word 5
+array: .word -1,-1
+n: .word 2
 
-str: .asciiz "University of California Irvine"
-delim: .ascii " "
+str: .asciiz "hell h"
+delim: .ascii "h"
 
 strLabel1: .asciiz "The # of tokens is "
 strLabel2: .asciiz "\nThe status is "

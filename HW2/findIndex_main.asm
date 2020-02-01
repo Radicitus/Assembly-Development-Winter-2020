@@ -4,8 +4,8 @@
 
 # Data Section
 .data
-array: .word 1,10,3,4,10,10,-1
-array_size: .word 7
+array: .word 5,6,5,7,7,6
+array_size: .word 6
 strLabel1: .asciiz " findIndex("
 comma: .asciiz ", "
 strLabel2: .asciiz ") returned values: ("

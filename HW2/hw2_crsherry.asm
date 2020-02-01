@@ -31,15 +31,15 @@ findIndex:
           findIndexLoopMaxVal:
           bge $t3, $t6, findIndexLoopMinVal
           move $t3, $t6
-               #Calulate index
-               move $t7, $t5
+               #Save index
+               move $t7, $t2
           j findIndexLoopContinue
           
           findIndexLoopMinVal:
           ble $t4, $t6, findIndexLoopContinue
           move $t4, $t6
-               #Calculate index
-               move $t8, $t5
+               #Save index
+               move $t8, $t2
           j findIndexLoopContinue
           
           #Continue the loop
@@ -296,7 +296,89 @@ createHist:
           jr $ra
           
 split:
-    # your code goes here
-    li $v0, 495   # REMOVE THIS LINE, ONLY FOR ASSEMBLY WITH MAIN
-    li $v1, 495   # REMOVE THIS LINE, ONLY FOR ASSEMBLY WITH MAIN
+    move $t0, $a0 #Address of token array
+    move $t1, $a1 #Size of token array
+    move $t2, $a2 #Address of string
+    move $t3, $a3 #Delimiter char
+    
+    #Error checking: delim invalid, str empty
+    bltz $t3, splitError
+    bgt $t3, 0x7F, splitError
+    beqz $t3, splitError
+    
+    #Init vars for loop
+    li $t4, 0 #Number of tokens in token array
+    li $v1, 0 #Defaults to 0, changed to -1 during operations
+    move $t5, $t2 #Placeholder string address
+    splitLoop:
+         #Load char
+         lb $t6, ($t2)
+         
+         #Check if char is null terminator
+         beqz $t6, splitLoopDone
+         
+         #Check if char is the delim
+         bne $t6, $t3, splitLoopContinue
+              
+              #Check if token array is full
+              splitLoopCheckSpace:
+                   blt $t4, $t1, splitLoopTokenFree
+                   j splitLoopTokenFull
+              
+                   #Operations with free token array
+                   splitLoopTokenFree:
+              		 #Replace char with null terminator
+              		 sb $0, ($t2)
+              		 #Increment token counter
+              		 addi $t4, $t4, 1
+              		 #Add held string address to token array
+              		 sw $t5, ($t0)
+              		      #Increment token array address
+              		      addi $t0, $t0, 4
+              		 #Increment placeholder address
+              		 move $t5, $t2
+              		 addi $t5, $t5, 1
+              		 #Jump to continue loop
+              		 j splitLoopContinue
+              
+                   #Operations with full token array
+                   splitLoopTokenFull:
+                        #Assign -1 to $v1, as not completely tokenized
+                        li $v1, -1
+                        #Jump back to loop
+                        j splitLoop
+
+         #Continue loop
+         splitLoopContinue:
+              #Increment string address
+              addi $t2, $t2, 1
+              #Jump back to main loop
+              j splitLoop
+              
+    #Split loop done
+    splitLoopDone:
+	 #Check if token array free
+	 bge $t4, $t1, splitLoopDoneSpaceFull
+	      #Assign string address to token array
+              sw $t5, ($t0)
+	      #Increment token counter
+	      addi $t4, $t4, 1
+	      #Assign token counter value
+	      move $v0, $t4
+	      j splitTerminate
+	      
+	      splitLoopDoneSpaceFull:
+	      li $v1, -1
+	      move $v0, $t4
+	      j splitTerminate
+         
+     #Error found
+     splitError:
+          #Assign -1 to return registers
+          li $v0, -1
+          li $v1, -1
+          #Jump to function termination
+          j splitTerminate
+    
+    splitTerminate:
     jr $ra
