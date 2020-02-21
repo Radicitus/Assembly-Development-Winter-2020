@@ -1,5 +1,5 @@
-.include "lab3_B_netid.asm"
-.include "lab3_functions.asm"
+.include "lab3_B_crsherry.asm"
+.include "lab3_functions_crsherry.asm"
 
 .globl main
 .text

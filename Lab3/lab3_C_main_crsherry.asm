@@ -1,6 +1,6 @@
-.include "lab3_B_jwong.asm"
-.include "lab3_C_jwong.asm"
-.include "lab3_functions.asm"
+.include "lab3_B_crsherry.asm"
+.include "lab3_C_crsherry.asm"
+.include "lab3_functions_crsherry.asm"
 
 .globl main
 .text
@@ -100,19 +100,19 @@ process2:
 	syscall
 
 .data
-strings: .word str_abc, str_hello, str_b, str_foo
+strings: .word str_1, str_2, str_3, str_4
 strings2: .word str_xyz, str_world, str_123, str_bar, str_help
 n: .word 4
 
-str_foo: .asciiz "FOO"
-str_bar: .asciiz "BARRRR"
-str_hello: .asciiz "HeLLO!"
-str_world: .asciiz "@! wOrLd $!&"
-str_abc: .asciiz "Abc"
-str_xyz: .asciiz "XXyZ"
-str_123: .asciiz "123"
-str_b: .asciiz "b"
-str_help: .asciiz "HELP! HELP! HELP!"
+str_1: .asciiz "lower case letters should not be detected and the function should only process the spaces"
+str_bar: .asciiz ""
+str_2: .asciiz "!!$%@&()(!))//%@$...,,,>>>"
+str_world: .asciiz ""
+str_3: .asciiz "THEY SAY THAT DOGS ARE MAN'S BEST FRIEND... BUT, THIS CAT WAS SETTING OUT TO SABOTAGE THAT THEORY.  >> FROM: RANDOM@MAIL.COM"
+str_xyz: .asciiz ""
+str_123: .asciiz ""
+str_4: .asciiz "HOWRAZORBACKJUMPINGFROGSCANLEVELSIXPIQUEDGYMNASTS"
+str_help: .asciiz ""
 
 
 
